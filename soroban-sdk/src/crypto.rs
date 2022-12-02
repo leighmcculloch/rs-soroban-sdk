@@ -15,10 +15,10 @@ impl Crypto {
         &self.env
     }
 
-    /// Computes a SHA-256 hash.
-    pub fn sha256(&self, message: &Bytes) -> BytesN<32> {
+    /// Returns the a SHA-256 hash of the data.
+    pub fn sha256(&self, data: &Bytes) -> BytesN<32> {
         let env = self.env();
-        let bin_obj = internal::Env::compute_hash_sha256(env, message.into());
+        let bin_obj = internal::Env::compute_hash_sha256(env, data.into());
         unsafe { BytesN::unchecked_new(bin_obj.in_env(env)) }
     }
 
