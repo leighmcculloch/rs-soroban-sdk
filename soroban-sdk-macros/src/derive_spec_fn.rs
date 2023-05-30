@@ -132,6 +132,7 @@ pub fn derive_fn_spec(
             VecM::<_, MAX>::default()
         }),
         outputs: spec_result.try_into().unwrap(),
+        data_access: stellar_xdr::ScSpecFunctionV0DataAccess::Write,
     });
     let spec_xdr = spec_entry.to_xdr().unwrap();
     let spec_xdr_lit = proc_macro2::Literal::byte_string(spec_xdr.as_slice());
