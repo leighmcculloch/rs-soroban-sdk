@@ -270,6 +270,13 @@ impl Env {
         Storage::new(self)
     }
 
+    /// Get a [Storage] for accessing and updating persistent data owned by the
+    /// currently executing contract.
+    #[inline(always)]
+    pub fn mut_storage(&mut self) -> Storage {
+        Storage::new(self)
+    }
+
     /// Get [Events] for publishing events associated with the
     /// currently executing contract.
     #[inline(always)]
