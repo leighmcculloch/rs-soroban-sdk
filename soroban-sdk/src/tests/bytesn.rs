@@ -1,4 +1,4 @@
-use crate::{BytesN, Env};
+use crate::{Bytes, BytesN, Env};
 
 #[test]
 fn test_bytesn_is_empty_zero_length() {
@@ -14,6 +14,17 @@ fn test_bytesn_is_empty_nonzero_length() {
     let b: BytesN<4> = BytesN::from_array(&env, &[1, 2, 3, 4]);
     assert_eq!(b.len(), 4);
     assert!(!b.is_empty());
+}
+
+#[cfg(target_pointer_width = "64")]
+#[test]
+fn test_bytesn_try_from_rejects_length_above_u32_max() {
+    const N: usize = (u32::MAX as usize) + 1;
+    let env = Env::default();
+    let bytes = Bytes::new(&env);
+
+    let result: Result<BytesN<N>, _> = bytes.try_into();
+    assert!(result.is_err());
 }
 
 #[test]
