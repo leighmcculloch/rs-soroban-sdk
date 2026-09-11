@@ -1090,8 +1090,14 @@ impl<const N: usize> TryFrom<Bytes> for BytesN<N> {
 
     #[inline(always)]
     fn try_from(bin: Bytes) -> Result<Self, Self::Error> {
-        match u32::try_from(N) {
-            Ok(n) if bin.len() == n => Ok(Self(bin)),
+        match const {
+            if N <= u32::MAX as usize {
+                Some(N as u32)
+            } else {
+                None
+            }
+        } {
+            Some(n) if bin.len() == n => Ok(Self(bin)),
             _ => Err(ConversionError {}),
         }
     }
